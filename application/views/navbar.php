@@ -48,15 +48,14 @@
         </ul>
       <?php } ?>
       <?php if ($this->session->has_userdata('authenticated') == TRUE) { ?>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <?= $this->session->userdata('auth_user')['login_email']; ?> </a>
-        </li>
-        <li>
-          <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown"> -->
-          <button type="button" id="btnLogout" class="btn btn-primary"> Logout </button>
-          <!-- </div> -->
-        </li>
+        <div class="dropdown">
+          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user"></i> <?= $this->session->userdata('auth_user')['login_email']; ?>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <button type="button" id="btnLogout" class="btn btn-primary"> <i class="fas fa-sign-out-alt">Logout</i> </button>
+          </div>
+        </div>
       <?php } ?>
     </div>
   </nav>
