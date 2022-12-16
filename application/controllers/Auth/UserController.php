@@ -59,7 +59,7 @@ class UserController extends RestController
           "success" => false,
           "error" => "Invalid username or password"
         );
-        $this->session->set_flashdata('status', 'Invalid Email or Password');
+        $this->session->set_flashdata('status', 'Invalid Credentials. Please Try Again.');
         echo json_encode($response);
       }
     }

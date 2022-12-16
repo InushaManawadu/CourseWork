@@ -57,7 +57,7 @@
                 <div class="text-center">
                   <input id="btnRegister" type="button" value="Register" class="btn btn-primary btn-lg btn-block" />
                   <br />
-                  <a href="#" class="link-dark">Have Already an Acoount? Login Here.</a>
+                  <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">Have Already an Account? Login Here </button>
                 </div>
               </form>
             </div>

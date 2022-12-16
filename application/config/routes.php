@@ -53,7 +53,7 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['register']['GET'] = 'Auth/UserController/index';
+$route['home']['GET'] = 'Auth/UserController/index';
 $route['register']['POST'] = 'Auth/UserController/register';
 
 $route['login']['POST'] = 'Auth/UserController/login';

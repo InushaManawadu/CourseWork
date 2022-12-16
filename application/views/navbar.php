@@ -10,24 +10,20 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
 </head>
-
+<style>
+</style>
 
 <body>
-  <?php include "register_view.php"; ?>
-  <?php include "login_view.php"; ?>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Logos</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg p-2 mb-3 bg-white rounded">
+    <a class="navbar-brand" href="#">
+      <img src="https://drive.google.com/uc?id=1HPhMZKMRU6ex8yMryCKNCkE9AyZt7szw" alt="logo" height="42" width="110" />
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-      </ul>
       <form class="form-inline my-2 my-lg-0">
-        <div class="input-group">
+        <div class="input-group" style="margin-left: 150px;">
           <input type="text" class="form-control" placeholder="Search">
           <div class="input-group-append">
             <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
@@ -35,15 +31,17 @@
         </div>
       </form>
       <form class="form-inline my-2 my-lg-0">
-        <button type="button" class="btn btn-primary"> + Add Question</button>
+        <button type="button" class="btn" style="color:black; background-color:#FF5858"><b> + Add Question </b></button>
       </form>
+      <?php include "login_view.php"; ?>
       <?php if (!$this->session->has_userdata('authenticated')) { ?>
         <ul class="navbar-nav">
           <li class="nav-item">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"> Register </button>
+            <?php include "register_view.php"; ?>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModal"> Register </button>
           </li>
           <li class="nav-item">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal"> Login </button>
+            <button type="button" class="btn btn-outline-primary btn-sm ml-3" data-toggle="modal" data-target="#loginModal"> Login </button>
           </li>
         </ul>
       <?php } ?>
@@ -61,28 +59,28 @@
   </nav>
   <div class="row mt-4 mr-4 ml-4">
     <div class="col-md-8">
-      <img src="https://thumbs.dreamstime.com/b/questions-colorful-overlapping-question-marks-banner-vector-119765863.jpg" class="img-fluid" alt="your image alt text here">
+      <img src="https://drive.google.com/uc?id=1HPhMZKMRU6ex8yMryCKNCkE9AyZt7szw" class="img-fluid" alt="your image alt text here">
     </div>
     <div class="col-md-4 d-flex flex-column">
       <h3 class="my-3">Our Statistics</h3>
-      <div class="card bg-primary mb-3">
-        <div class="card-body">
-          Questions
+      <div class="card mb-3 border-success" style="background-color:none">
+        <div class="card-body rounded">
+          <b>Questions</b>
         </div>
       </div>
-      <div class="card bg-primary mb-3">
-        <div class="card-body">
-          Questions
+      <div class="card mb-3 border-success">
+        <div class="card-body rounded" style="background-color:none">
+          <b>Answered</b>
         </div>
       </div>
-      <div class="card bg-secondary mb-3">
-        <div class="card-body">
-          Answers
+      <div class="card mb-3 border-success">
+        <div class="card-body rounded" style="background-color:none">
+          <b>Not Answered</b>
         </div>
       </div>
-      <div class="card bg-success mb-3">
-        <div class="card-body">
-          Users
+      <div class="card mb-3 border-success">
+        <div class="card-body rounded" style="background-color:none">
+          <b>Users</b>
         </div>
       </div>
     </div>
