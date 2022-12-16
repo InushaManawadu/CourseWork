@@ -28,4 +28,10 @@ class User_Model extends CI_Model
       return false;
     }
   }
+
+  public function getUserCount()
+  {
+    $query = $this->db->query('SELECT * FROM users');
+    return $query->num_rows();
+  }
 }

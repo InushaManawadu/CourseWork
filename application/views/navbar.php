@@ -81,6 +81,7 @@
       <div class="card mb-3 border-success">
         <div class="card-body rounded" style="background-color:none">
           <b>Users</b>
+          <b><?php echo $count; ?></b>
         </div>
       </div>
     </div>
@@ -134,7 +135,7 @@
         location.reload();
       }
     });
-  })
+  });
 </script>
 
 </html>

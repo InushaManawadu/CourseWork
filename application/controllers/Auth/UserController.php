@@ -25,7 +25,10 @@ class UserController extends RestController
 
   public function index_get()
   {
-    $this->load->view('navbar');
+    $count = $this->user_model->getUserCount();
+    $count = json_encode($count);
+    $data = array('count' => $count);
+    $this->load->view('navbar', $data);
   }
 
   public function login_post()
@@ -57,7 +60,7 @@ class UserController extends RestController
       } else {
         $response = array(
           "success" => false,
-          "error" => "Invalid username or password"
+          "error" => "Invalid Credentials. Please Try Again."
         );
         $this->session->set_flashdata('status', 'Invalid Credentials. Please Try Again.');
         echo json_encode($response);
