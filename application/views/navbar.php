@@ -1,14 +1,14 @@
-<html>
+<!DOCTYPE html>
 
 <head>
-  <title>sas</title>
+  <title>TechQ - Where Developers Learn, Share and Shine</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js" integrity="sha512-tWHlutFnuG0C6nQRlpvrEhE4QpkG1nn2MOUMWmUeRePl4e3Aki0VB6W1v3oLjFtd0hVOtRQ9PHpSfN6u6/QXkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-
+  <script src="https://cdn.tiny.cloud/1/j3e8tidbd0lubesziq2io8ww6bulkv8w2125ip5dbqxj0ncf/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 <style>
 </style>
@@ -30,15 +30,16 @@
           </div>
         </div>
       </form>
+      <?php include "add_question_view.php"; ?>
       <form class="form-inline my-2 my-lg-0">
-        <button type="button" class="btn" style="color:black; background-color:#FF5858"><b> + Add Question </b></button>
+        <button type="button" class="btn" style="color:black; background-color:#FF5858" data-toggle="modal" data-target="#addQuestionModal"><b> + Add Question </b></button>
       </form>
       <?php include "login_view.php"; ?>
       <?php if (!$this->session->has_userdata('authenticated')) { ?>
         <ul class="navbar-nav">
           <li class="nav-item">
             <?php include "register_view.php"; ?>
-            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModal"> Register </button>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#registerModal"> Register </button>
           </li>
           <li class="nav-item">
             <button type="button" class="btn btn-outline-primary btn-sm ml-3" data-toggle="modal" data-target="#loginModal"> Login </button>
