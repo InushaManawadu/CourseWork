@@ -47,7 +47,8 @@ class UserController extends RestController
       $result = $this->user_model->login($data);
       if ($result != FALSE) {
         $authentication = [
-          'login_email' => $result->name,
+          'login_name' => $result->name,
+          'login_email' => $result->email,
           'login_password' => $result->email
         ];
         $response = array(

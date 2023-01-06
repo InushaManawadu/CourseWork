@@ -30,10 +30,12 @@
           </div>
         </div>
       </form>
-      <?php include "add_question_view.php"; ?>
-      <form class="form-inline my-2 my-lg-0">
-        <button type="button" class="btn" style="color:black; background-color:#FF5858" data-toggle="modal" data-target="#addQuestionModal"><b> + Add Question </b></button>
-      </form>
+      <?php if ($this->session->has_userdata('authenticated') == TRUE) { ?>
+        <?php include "add_question_view.php"; ?>
+        <form class="form-inline my-2 my-lg-0">
+          <button type="button" class="btn" style="color:black; background-color:#FF5858" data-toggle="modal" data-target="#addQuestionModal"><b> + Add Question </b></button>
+        </form>
+      <?php } ?>
       <?php include "login_view.php"; ?>
       <?php if (!$this->session->has_userdata('authenticated')) { ?>
         <ul class="navbar-nav">
@@ -49,7 +51,7 @@
       <?php if ($this->session->has_userdata('authenticated') == TRUE) { ?>
         <div class="dropdown">
           <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-user"></i> <?= $this->session->userdata('auth_user')['login_email']; ?>
+            <i class="fas fa-user"></i> <?= $this->session->userdata('auth_user')['login_name']; ?>
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <button type="button" id="btnLogout" class="btn btn-primary"> <i class="fas fa-sign-out-alt">Logout</i> </button>

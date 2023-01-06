@@ -29,7 +29,7 @@
                 <div class="d-flex flex-row align-items-center justify-content-start mb-4">
                   <label class="form-label inline" for="title"><b>Question</b></label>
                   <div class="form-outline flex-fill mb-0">
-                    <input type="text" id="title" name="title" class="form-control ml-3" />
+                    <input type="text" id="title" name="title" class="form-control ml-3" placeholder="Question Title" />
                   </div>
                 </div>
                 <div class="d-flex flex-row align-items-center justify-content-start mb-4">
@@ -37,7 +37,8 @@
                     <b>Category</b>
                   </label>
                   <div class="col-sm-6">
-                    <select class="form-control" id="categoryDropdown">
+                    <select class="form-control" id="categoryDropdown" name="category">
+                      <option style="display:none"></option>
                       <option>Programming</option>
                       <option>Database Systems</option>
                       <option>Object Oriented Programming (OOP)</option>
@@ -50,7 +51,8 @@
                     <b>Tags</b>
                   </label>
                   <div class="col-sm-4">
-                    <select class="form-control" id="tagsDropdown">
+                    <select class="form-control" id="tagDropdown" name="tag">
+                      <option style="display:none"></option>
                       <option>Java</option>
                       <option>Python</option>
                       <option>My SQL</option>
@@ -64,7 +66,7 @@
                 <div class="d-flex flex-row align-items-center justify-content-start mb-4">
                   <label class="form-label" for="description"><b>Description</b></label>
                   <div class="form-outline flex-fill mb-0 ml-1">
-                    <textarea id="description" name="description" class="form-control ml-2"></textarea>
+                    <textarea id="description" name="question_description" class="form-control ml-2"></textarea>
                   </div>
                 </div>
                 <div class="text-right">
@@ -89,22 +91,23 @@
 <script>
   $('#btnAddQuestion').click(function() {
     $.ajax({
-      url: 'addQuesion',
+      url: 'addQuestion',
       method: 'POST',
       dataType: 'json',
       data: {
-        name: $('#name').val(),
-        email: $('#email').val(),
-        password: $('#password').val(),
-        confirm_password: $('#confirm_password').val()
+        title: $('#title').val(),
+        category: $('#categoryDropdown').val(),
+        tag: $('#tagDropdown').val(),
+        description: (((tinyMCE.get('description').getContent()).replace(/(&nbsp;)*/g, "")).replace(/(<p>)*/g, "")).replace(/<(\/)?p[^>]*>/g, "")
       },
       success: function(data) {
         if ($.isEmptyObject(data.error)) {
-          $(".print-error-msg").css('display', 'none');
-          $('#registerModal').modal('hide');
+          // $(".print-error-msg").css('display', 'none');
+          $('#addQuestionModal').modal('hide');
           $('.modal-backdrop').remove();
           location.reload();
         } else {
+          // console.log('ree')
           $(".print-error-msg").css('display', 'block');
           $(".print-error-msg").html(data.error);
         }

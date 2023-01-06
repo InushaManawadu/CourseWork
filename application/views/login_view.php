@@ -41,7 +41,7 @@
                   </div>
                 </div>
                 <div class="text-center">
-                  <input id="btnLogin" type="button" value="Register" class="btn btn-primary btn-lg btn-block" />
+                  <input id="btnLogin" type="button" value="Login" class="btn btn-primary btn-lg btn-block" />
                   <br />
                   <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModal" data-dismiss="modal"> Don't Have an Account? Register Here </button>
                 </div>

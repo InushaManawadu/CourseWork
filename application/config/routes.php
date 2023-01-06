@@ -58,3 +58,5 @@ $route['register']['POST'] = 'Auth/UserController/register';
 
 $route['login']['POST'] = 'Auth/UserController/login';
 $route['logout']['GET'] = 'Auth/UserController/logout';
+
+$route['addQuestion']['POST'] = 'Auth/QuestionController/addQuestion';
