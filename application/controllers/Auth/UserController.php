@@ -111,4 +111,12 @@ class UserController extends RestController
       }
     }
   }
+
+  public function userDetails_get()
+  {
+    $userId = $this->input->get('userId');
+    $result = $this->user_model->getUserDetails($userId);
+    echo json_encode($result);
+    log_message('debug', 'after endcoded output');
+  }
 }

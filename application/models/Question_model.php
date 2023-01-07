@@ -13,4 +13,10 @@ class Question_model extends CI_Model
     $this->db->insert('questions', $data);
     return $this->db->insert_id();
   }
+
+  public function getAllQuestions()
+  {
+    $query = $this->db->query('SELECT * FROM questions');
+    return $query->result_array();
+  }
 }

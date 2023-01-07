@@ -18,6 +18,12 @@ class QuestionController extends RestController
     $this->load->library('form_validation');
   }
 
+  public function allQuestions_get()
+  {
+    $result = $this->question_model->getAllQuestions();
+    echo json_encode($result);
+  }
+
   public function addQuestion_post()
   {
     $this->form_validation->set_rules('title', 'Question Title', 'required', array('required' => 'Question Title is Mandotory.'));

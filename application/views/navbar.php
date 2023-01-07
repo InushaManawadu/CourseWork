@@ -62,7 +62,7 @@
   </nav>
   <div class="row mt-4 mr-4 ml-4">
     <div class="col-md-8">
-      <img src="https://drive.google.com/uc?id=1HPhMZKMRU6ex8yMryCKNCkE9AyZt7szw" class="img-fluid" alt="your image alt text here">
+      <img src="https://drive.google.com/uc?id=1HPhMZKMRU6ex8yMryCKNCkE9AyZt7szw" class="img-fluid" alt="logo">
     </div>
     <div class="col-md-4 d-flex flex-column">
       <h3 class="my-3">Our Statistics</h3>
@@ -89,44 +89,9 @@
       </div>
     </div>
   </div>
+  <div class="items" id="items">
 
-  <div class="card mt-3 mb-3 ml-4 mr-4 bg-light">
-    <div class=" card-body">
-
-      <div class="card-body mt-0 d-inline-block text-left">
-        <p class="card-text">
-          <i class="fas fa-user-circle"></i> User Name
-        </p>
-      </div>
-      <div class="card-body d-inline-block text-left">
-        <p class="card-text">
-          <i class="far fa-calendar-alt"></i> Date Created: <b>MM/DD/YYYY</b>
-        </p>
-      </div>
-      <div class="card-body d-inline-block text-left">
-        <p class="card-text">
-          <i class="fas fa-random"></i> Random Word: <b>lorem</b>
-        </p>
-      </div>
-      <div class="card mt-3 mb-3 ml-3 mr-3">
-        <div class="card-body">
-          <h5 class="card-title float-left"> Child card Title </h5>
-          <h5 class="card-title float-right">
-            <button style="background:none; border:none; outline: none;"><i class="fas fa-edit mr-2"></i></button>
-            <button style="background:none; border:none; outline: none;"><i class="fas fa-trash-alt"></i></button>
-          </h5>
-        </div>
-        <p class="card-text ml-3 mt-0">Child card content goes here...</p>
-      </div>
-      <div class="float-right mt-3 mr-3 mb-3">
-        <button type="button" class="btn btn-outline-secondary mr-2">Add Answer</button>
-        <button type="button" class="btn btn-outline-secondary">Answers</button>
-      </div>
-    </div>
   </div>
-  </div>
-  </div>
-
 </body>
 <script>
   $('#btnLogout').click(function() {
@@ -139,6 +104,60 @@
       }
     });
   });
+
+  $(document).ready(function() {
+    var array = [];
+    $.ajax({
+      url: 'allQuestions',
+      method: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        var html = '';
+        for (var i = 0; i < response.length; i++) {
+          $.ajax({
+            url: 'userDetails',
+            method: 'GET',
+            dataType: 'json',
+            data: {
+              userId: response[i]['userId']
+            },
+            success: function(data) {
+              array.push(data[0]['name']);
+            }
+          });
+        }
+        var html = '';
+        var responses = array;
+        for (var i = 0; i < response.length; i++) {
+          responses[i] = array[i]
+          html +=
+            '<div class = "card mt-3 mb-3 ml-4 mr-4 bg-light" >' +
+            '<div class = " card-body">' +
+            '<div class = "card-body mt-0 d-inline-block text-left" >' +
+            '<p class = "card-text" >' +
+            '<i class = "fas fa-user-circle" > </i><p>' + responses[0] + '</p> </div>' +
+            '<div class = "card-body d-inline-block text-left" >' +
+            '<p class = "card-text" >' +
+            '<i class = "far fa-calendar-alt" > </i> Date Created: <b>' + response[i]['createdAt'] + '</b> </p> </div>' +
+            '<div class = "card-body d-inline-block text-left" >' +
+            '<p class = "card-text" >' +
+            '<i class = "fas fa-random" > </i> Random Word: <b> lorem </b >' +
+            '</p> </div>' +
+            '<div class = "card mt-3 mb-3 ml-3 mr-3" >' +
+            '<div class = "card-body" >' +
+            '<h5 class = "card-title float-left" >' + response[i]['title'] + '</h5>' +
+            '<h5 class = "card-title float-right" >' +
+            '<button style = "background:none; border:none; outline: none;" > <i class = "fas fa-edit mr-2" > </i></button >' +
+            '<button style = "background:none; border:none; outline: none;" > <i class = "fas fa-trash-alt" > </i></button >' +
+            '</h5> </div> <p class = "card-text ml-3 mt-0" > ' + response[i]['description'] + ' </p> </div> <div class = "float-right mt-3 mr-3 mb-3" >' +
+            '<button type = "button" class = "btn btn-outline-secondary mr-2" > Add Answer </button>' +
+            '<button type = "button" class = "btn btn-outline-secondary" > Answers </button> </div> </div> </div>'
+        }
+        $('#items').html(html);
+        // console.log(responses)
+      }
+    });
+  })
 </script>
 
 </html>
