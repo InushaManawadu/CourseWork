@@ -19,6 +19,7 @@ class UserController extends RestController
       // redirect(base_url('register'));
     }
     $this->load->model('user_model');
+    $this->load->model('question_model');
     $this->load->helper('form');
     $this->load->library('form_validation');
   }
@@ -27,7 +28,9 @@ class UserController extends RestController
   {
     $count = $this->user_model->getUserCount();
     $count = json_encode($count);
-    $data = array('count' => $count);
+    $result = $this->currentUserQuestions();
+    $result = json_encode($result);
+    $data = array('count' => $count, 'result' => $result);
     $this->load->view('navbar', $data);
   }
 
@@ -49,7 +52,8 @@ class UserController extends RestController
         $authentication = [
           'login_name' => $result->name,
           'login_email' => $result->email,
-          'login_password' => $result->email
+          'login_password' => $result->email,
+          'userId' => $result->userId
         ];
         $response = array(
           "success" => true
@@ -112,11 +116,22 @@ class UserController extends RestController
     }
   }
 
+  public function currentUserQuestions()
+  {
+    if ($this->session->has_userdata('authenticated') == TRUE) {
+      $result = $this->question_model->getQuestionsByUser($this->session->userdata('auth_user')['userId']);
+      if ($result !== null) {
+        return $result;
+      } else {
+        return "";
+      }
+    }
+  }
+
   public function userDetails_get()
   {
     $userId = $this->input->get('userId');
     $result = $this->user_model->getUserDetails($userId);
     echo json_encode($result);
-    log_message('debug', 'after endcoded output');
   }
 }

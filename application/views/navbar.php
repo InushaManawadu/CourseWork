@@ -78,7 +78,8 @@
       </div>
       <div class="card mb-3 border-success">
         <div class="card-body rounded" style="background-color:none">
-          <b>Not Answered</b>
+          <b>AAAA <?php echo $result; ?></b>
+          <b></b>
         </div>
       </div>
       <div class="card mb-3 border-success">
@@ -112,7 +113,6 @@
       method: 'GET',
       dataType: 'json',
       success: function(response) {
-        var html = '';
         for (var i = 0; i < response.length; i++) {
           $.ajax({
             url: 'userDetails',
@@ -122,36 +122,38 @@
               userId: response[i]['userId']
             },
             success: function(data) {
-              array.push(data[0]['name']);
+              array.push(data[0]);
             }
           });
         }
         var html = '';
         var responses = array;
         for (var i = 0; i < response.length; i++) {
-          responses[i] = array[i]
           html +=
-            '<div class = "card mt-3 mb-3 ml-4 mr-4 bg-light" >' +
-            '<div class = " card-body">' +
+            '<div class = "card mt-2 mb-3 ml-4 mr-4 bg-light" >' +
+            '<div class = " card-body" style="margin-top: -40px">' +
             '<div class = "card-body mt-0 d-inline-block text-left" >' +
             '<p class = "card-text" >' +
-            '<i class = "fas fa-user-circle" > </i><p>' + responses[0] + '</p> </div>' +
+            '<p> Created By:' + ' Inusha Manawadu' + response[i]['userId'] + '</p> </div>' +
             '<div class = "card-body d-inline-block text-left" >' +
             '<p class = "card-text" >' +
             '<i class = "far fa-calendar-alt" > </i> Date Created: <b>' + response[i]['createdAt'] + '</b> </p> </div>' +
             '<div class = "card-body d-inline-block text-left" >' +
             '<p class = "card-text" >' +
-            '<i class = "fas fa-random" > </i> Random Word: <b> lorem </b >' +
+            '<i class = "fas fa-random" > </i> Question Tags: <b>' + response[i]['userId'] + '</b >' +
             '</p> </div>' +
-            '<div class = "card mt-3 mb-3 ml-3 mr-3" >' +
-            '<div class = "card-body" >' +
+            '<div class = "card mt-2 mb-3 ml-3 mr-3" >' +
+            '<div class = "card-body" style="margin-top:-15px">' +
             '<h5 class = "card-title float-left" >' + response[i]['title'] + '</h5>' +
             '<h5 class = "card-title float-right" >' +
+            '<?php if ($this->session->has_userdata('authenticated') == TRUE) { ?>' +
             '<button style = "background:none; border:none; outline: none;" > <i class = "fas fa-edit mr-2" > </i></button >' +
             '<button style = "background:none; border:none; outline: none;" > <i class = "fas fa-trash-alt" > </i></button >' +
+            '<?php } ?>' +
             '</h5> </div> <p class = "card-text ml-3 mt-0" > ' + response[i]['description'] + ' </p> </div> <div class = "float-right mt-3 mr-3 mb-3" >' +
             '<button type = "button" class = "btn btn-outline-secondary mr-2" > Add Answer </button>' +
-            '<button type = "button" class = "btn btn-outline-secondary" > Answers </button> </div> </div> </div>'
+            '<button type = "button" class = "btn btn-outline-secondary" > Answers </button>' +
+            '</div> </div> </div>'
         }
         $('#items').html(html);
         // console.log(responses)

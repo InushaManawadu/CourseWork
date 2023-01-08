@@ -19,4 +19,18 @@ class Question_model extends CI_Model
     $query = $this->db->query('SELECT * FROM questions');
     return $query->result_array();
   }
+
+  public function getQuestionsByUser($userId)
+  {
+    $this->db->select('userId');
+    $this->db->where('userId', $userId);
+    $this->db->from('questions');
+    $query = $this->db->get();
+    $result = $query->row();
+    if ($result !== null) {
+      return $result->userId;
+    } else {
+      return "";
+    }
+  }
 }
