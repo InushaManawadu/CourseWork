@@ -1,58 +1,46 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>Add New Question</title>
-  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js" integrity="sha512-tWHlutFnuG0C6nQRlpvrEhE4QpkG1nn2MOUMWmUeRePl4e3Aki0VB6W1v3oLjFtd0hVOtRQ9PHpSfN6u6/QXkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
-  <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script> -->
-</head>
-
-<body>
-  <div class="items" id="items">
-
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-md p-2 mb-3 bg-white rounded">
+  <a class="navbar-brand" href="#">
+    <img src="https://drive.google.com/uc?id=1HPhMZKMRU6ex8yMryCKNCkE9AyZt7szw" alt="logo" height="50" width="110" />
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+    <form class="form-inline my-2 my-lg-0">
+      <div class="input-group" style="margin-left: 150px;">
+        <input type="text" class="form-control" placeholder="Search">
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+    </form>
+    <?php if ($this->session->has_userdata('authenticated') == TRUE) { ?>
+      <?php include "add_question_view.php"; ?>
+      <form class="form-inline my-2 my-lg-0">
+        <button type="button" class="btn" style="color:black; background-color:#6658FF" data-toggle="modal" data-target="#addQuestionModal"><b> + Add Question </b></button>
+      </form>
+    <?php } ?>
+    <?php include "login_view.php"; ?>
+    <?php if (!$this->session->has_userdata('authenticated')) { ?>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <?php include "register_view.php"; ?>
+          <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#registerModal"> Register </button>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="btn btn-outline-primary btn-sm ml-3" data-toggle="modal" data-target="#loginModal"> Login </button>
+        </li>
+      </ul>
+    <?php } ?>
+    <?php if ($this->session->has_userdata('authenticated') == TRUE) { ?>
+      <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user"></i> <?= $this->session->userdata('auth_user')['login_name']; ?>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <button type="button" id="btnLogout" class="btn btn-primary"> <i class="fas fa-sign-out-alt">Logout</i> </button>
+        </div>
+      </div>
+    <?php } ?>
   </div>
-</body>
-
-<script>
-  $(document).ready(function() {
-    $.ajax({
-      url: '<?php echo base_url('allQuestions'); ?>',
-      method: 'GET',
-      dataType: 'json',
-      success: function(data) {
-        var result = data.result;
-        var html = '';
-        var i;
-        for (i = 0; i < result.length; i++) {
-          html +=
-            '<div class = "card mt-3 mb-3 ml-4 mr-4 bg-light" >' +
-            '<div class = " card-body">' +
-            '<div class = "card-body mt-0 d-inline-block text-left" >' +
-            '<p class = "card-text" >' +
-            '<i class = "fas fa-user-circle" > </i> User Name </p> </div>' +
-            '<div class = "card-body d-inline-block text-left" >' +
-            '<p class = "card-text" >' +
-            '<i class = "far fa-calendar-alt" > </i> Date Created: <b>MM/DD / YYYY </b> </p> </div>' +
-            '<div class = "card-body d-inline-block text-left" >' +
-            '<p class = "card-text" >' +
-            '<i class = "fas fa-random" > </i> Random Word: <b> lorem </b >' +
-            '</p> </div>' +
-            '<div class = "card mt-3 mb-3 ml-3 mr-3" >' +
-            '<div class = "card-body" >' +
-            '<h5 class = "card-title float-left" > Child card Title </h5>' +
-            '<h5 class = "card-title float-right" >' +
-            '<button style = "background:none; border:none; outline: none;" > <i class = "fas fa-edit mr-2" > </i></button >' +
-            '<button style = "background:none; border:none; outline: none;" > <i class = "fas fa-trash-alt" > </i></button >' +
-            '</h5> </div> <p class = "card-text ml-3 mt-0" > Child card content goes here... </p> </div> <div class = "float-right mt-3 mr-3 mb-3" >' +
-            '<button type = "button" class = "btn btn-outline-secondary mr-2" > Add Answer </button>' +
-            '<button type = "button" class = "btn btn-outline-secondary" > Answers </button> </div> </div> </div>'
-        }
-        $('#items').html(html);
-      }
-    });
-  })
-</script>
-
-</html>
+</nav>

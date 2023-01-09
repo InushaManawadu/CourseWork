@@ -15,7 +15,7 @@
     <div class="modal-dialog" role="document" style="top: 16%;">
       <div class="modal-content">
         <div class="modal-header text-center">
-          <h5 class=" modal-title w-100" id="loginModalLabel">Create an Account</h5>
+          <h5 class=" modal-title w-100" id="loginModalLabel">Login</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

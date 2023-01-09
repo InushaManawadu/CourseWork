@@ -13,10 +13,10 @@
 <style>
 </style>
 
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg p-2 mb-3 bg-white rounded">
+<body style="background-color: white;">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-md p-2 mb-3 bg-white rounded" style=" border-bottom: 2px solid #ccc;">
     <a class="navbar-brand" href="#">
-      <img src="https://drive.google.com/uc?id=1HPhMZKMRU6ex8yMryCKNCkE9AyZt7szw" alt="logo" height="42" width="110" />
+      <img src="https://drive.google.com/uc?id=1HPhMZKMRU6ex8yMryCKNCkE9AyZt7szw" alt="logo" height="50" width="110" />
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -26,14 +26,14 @@
         <div class="input-group" style="margin-left: 150px;">
           <input type="text" class="form-control" placeholder="Search">
           <div class="input-group-append">
-            <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
+            <button class="btn btn-secondary" type="button" style="border: none;"><i class="fa fa-search"></i></button>
           </div>
         </div>
       </form>
       <?php if ($this->session->has_userdata('authenticated') == TRUE) { ?>
         <?php include "add_question_view.php"; ?>
         <form class="form-inline my-2 my-lg-0">
-          <button type="button" class="btn" style="color:black; background-color:#FF5858" data-toggle="modal" data-target="#addQuestionModal"><b> + Add Question </b></button>
+          <button type="button" class="btn" style="color:black; background-color:#F98080" data-toggle="modal" data-target="#addQuestionModal"><b> + Add Question </b></button>
         </form>
       <?php } ?>
       <?php include "login_view.php"; ?>
@@ -50,44 +50,38 @@
       <?php } ?>
       <?php if ($this->session->has_userdata('authenticated') == TRUE) { ?>
         <div class="dropdown">
-          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="btn dropdown-toggle" style="background-color: #D6F3E8;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-user"></i> <?= $this->session->userdata('auth_user')['login_name']; ?>
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <button type="button" id="btnLogout" class="btn btn-primary"> <i class="fas fa-sign-out-alt">Logout</i> </button>
+            <button type="button" id="btnLogout" class="btn"> <i class=" fas fa-sign-out-alt">Logout</i> </button>
           </div>
         </div>
       <?php } ?>
     </div>
   </nav>
   <div class="row mt-4 mr-4 ml-4">
-    <div class="col-md-8">
-      <img src="https://drive.google.com/uc?id=1HPhMZKMRU6ex8yMryCKNCkE9AyZt7szw" class="img-fluid" alt="logo">
+    <div class="col-md-8" style=" border-right: 2px solid #ccc;">
+      <img src="https://drive.google.com/uc?id=1HPhMZKMRU6ex8yMryCKNCkE9AyZt7szw" class="img-fluid" alt="logo" height="100">
     </div>
     <div class="col-md-4 d-flex flex-column">
-      <h3 class="my-3">Our Statistics</h3>
-      <div class="card mb-3 border-success" style="background-color:none">
-        <div class="card-body rounded">
-          <b>Questions</b>
+      <h2><b>Our Statistics</b></h2>
+      <div class="card mb-3" style="background-color:#6BADF1; border:none">
+        <div class="card-body rounded" style="display: inline-block;">
+          <h4>Questions <?php echo $count ?></h4>
         </div>
       </div>
-      <div class="card mb-3 border-success">
-        <div class="card-body rounded" style="background-color:none">
-          <b>Answered</b>
+      <div class="card mb-3 mt-4" style="background-color:#6BADF1; border:none">
+        <div class=" card-body rounded" style="background-color:none">
+          <h4>Answeres</h4>
         </div>
       </div>
-      <div class="card mb-3 border-success">
-        <div class="card-body rounded" style="background-color:none">
-          <b>AAAA <?php echo $result; ?></b>
-          <b></b>
+      <div class="card mb-3 mt-4" style="background-color:#6BADF1; border:none">
+        <div class=" card-body rounded" style="background-color:none">
+          <h4>Users</h4>
         </div>
       </div>
-      <div class="card mb-3 border-success">
-        <div class="card-body rounded" style="background-color:none">
-          <b>Users</b>
-          <b><?php echo $count; ?></b>
-        </div>
-      </div>
+
     </div>
   </div>
   <div class="items" id="items">
@@ -105,7 +99,8 @@
       }
     });
   });
-
+</script>
+<script>
   $(document).ready(function() {
     var array = [];
     $.ajax({
@@ -130,17 +125,17 @@
         var responses = array;
         for (var i = 0; i < response.length; i++) {
           html +=
-            '<div class = "card mt-2 mb-3 ml-4 mr-4 bg-light" >' +
+            '<div class = "card mt-2 mb-3 ml-4 mr-4 bg-white" id="card-' + response[i]['questionId'] + '" style=" border: 2px solid #ccc;">' +
             '<div class = " card-body" style="margin-top: -40px">' +
             '<div class = "card-body mt-0 d-inline-block text-left" >' +
             '<p class = "card-text" >' +
-            '<p> Created By:' + ' Inusha Manawadu' + response[i]['userId'] + '</p> </div>' +
+            '<p> Created By:<b>' + ' Inusha Manawadu' + '</b></p> </div>' +
             '<div class = "card-body d-inline-block text-left" >' +
             '<p class = "card-text" >' +
             '<i class = "far fa-calendar-alt" > </i> Date Created: <b>' + response[i]['createdAt'] + '</b> </p> </div>' +
             '<div class = "card-body d-inline-block text-left" >' +
             '<p class = "card-text" >' +
-            '<i class = "fas fa-random" > </i> Question Tags: <b>' + response[i]['userId'] + '</b >' +
+            '<i class = "fas fa-random" > </i> Question Tags: <b>' + response[i]['tag'] + '</b >' +
             '</p> </div>' +
             '<div class = "card mt-2 mb-3 ml-3 mr-3" >' +
             '<div class = "card-body" style="margin-top:-15px">' +
@@ -148,9 +143,9 @@
             '<h5 class = "card-title float-right" >' +
             '<?php if ($this->session->has_userdata('authenticated') == TRUE) { ?>' +
             '<button style = "background:none; border:none; outline: none;" > <i class = "fas fa-edit mr-2" > </i></button >' +
-            '<button style = "background:none; border:none; outline: none;" > <i class = "fas fa-trash-alt" > </i></button >' +
+            '<button type="button" class="btnDelete"' + 'data-id="' + response[i]['questionId'] + '"' + 'style ="background:none; border:none; outline: none;" > <i class = "fas fa-trash-alt" > </i></button >' +
             '<?php } ?>' +
-            '</h5> </div> <p class = "card-text ml-3 mt-0" > ' + response[i]['description'] + ' </p> </div> <div class = "float-right mt-3 mr-3 mb-3" >' +
+            '</h5></div> <p class = "card-text ml-3 mt-0" > ' + response[i]['description'] + ' </p> </div> <div class = "float-right mt-3 mr-3 mb-3" >' +
             '<button type = "button" class = "btn btn-outline-secondary mr-2" > Add Answer </button>' +
             '<button type = "button" class = "btn btn-outline-secondary" > Answers </button>' +
             '</div> </div> </div>'
@@ -160,6 +155,25 @@
       }
     });
   })
+</script>
+<Script>
+  $(document).on('click', '.btnDelete', function() {
+    var cardId = $(this).data('id');
+    $.ajax({
+      url: 'deleteQuestion/' + cardId,
+      method: 'DELETE',
+      dataType: 'json',
+      data: {
+        questionId: cardId
+      },
+      success: function(result) {
+        $('#card-' + cardId).remove();
+      },
+      error: function(response) {
+        console.log(response)
+      }
+    });
+  });
 </script>
 
 </html>

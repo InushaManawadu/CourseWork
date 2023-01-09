@@ -14,6 +14,11 @@ class Question_model extends CI_Model
     return $this->db->insert_id();
   }
 
+  public function deleteQuestion($questionId)
+  {
+    return $this->db->delete('questions', ['questionId' => $questionId]);
+  }
+
   public function getAllQuestions()
   {
     $query = $this->db->query('SELECT * FROM questions');

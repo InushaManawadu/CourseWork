@@ -31,7 +31,7 @@ class UserController extends RestController
     $result = $this->currentUserQuestions();
     $result = json_encode($result);
     $data = array('count' => $count, 'result' => $result);
-    $this->load->view('navbar', $data);
+    $this->load->view('home', $data);
   }
 
   public function login_post()

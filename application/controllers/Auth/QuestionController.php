@@ -24,6 +24,16 @@ class QuestionController extends RestController
     echo json_encode($result);
   }
 
+  public function deleteQuestion_delete($questionId)
+  {
+    $result = $this->question_model->deleteQuestion($questionId);
+    if ($result > 0) {
+      $this->response(['status' => true, 'message' => 'Question Deleted'], RestController::HTTP_OK);
+    } else {
+      $this->response(['status' => true, 'message' => 'Question Deletion Failed'], RestController::HTTP_BAD_REQUEST);
+    }
+  }
+
   public function addQuestion_post()
   {
     $this->form_validation->set_rules('title', 'Question Title', 'required', array('required' => 'Question Title is Mandotory.'));
@@ -49,9 +59,11 @@ class QuestionController extends RestController
       $checking = $this->question_model->addQuestion($data);
       if ($checking) {
         $this->session->set_flashdata('status', 'Question Added Successfully.!');
-        echo json_encode(['success' => 'Question added successfully.']);
+        $this->response(['status' => true, 'message' => 'Question Added Successfully.'], RestController::HTTP_OK);
+        //echo json_encode(['success' => 'Question added successfully.']);
       } else {
         $this->session->set_flashdata('status', 'Something Went Wrong.!');
+        $this->response(['status' => true, 'message' => 'Failed Adding Question'], RestController::HTTP_BAD_REQUEST);
       }
     }
   }

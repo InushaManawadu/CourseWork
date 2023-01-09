@@ -53,12 +53,13 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['home']['GET'] = 'Auth/UserController/index';
-$route['register']['POST'] = 'Auth/UserController/register';
+$route['api/home']['GET'] = 'Auth/UserController/index';
+$route['api/register']['POST'] = 'Auth/UserController/register';
 
-$route['login']['POST'] = 'Auth/UserController/login';
-$route['logout']['GET'] = 'Auth/UserController/logout';
+$route['api/login']['POST'] = 'Auth/UserController/login';
+$route['api/logout']['GET'] = 'Auth/UserController/logout';
 
-$route['addQuestion']['POST'] = 'Auth/QuestionController/addQuestion';
-$route['allQuestions']['GET'] = 'Auth/QuestionController/allQuestions';
-$route['userDetails']['GET'] = 'Auth/UserController/userDetails';
+$route['api/addQuestion']['POST'] = 'Auth/QuestionController/addQuestion';
+$route['api/deleteQuestion/(:any)'] = 'Auth/QuestionController/deleteQuestion/$1';
+$route['api/allQuestions']['GET'] = 'Auth/QuestionController/allQuestions';
+$route['api/userDetails']['GET'] = 'Auth/UserController/userDetails';
