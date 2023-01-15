@@ -18,22 +18,6 @@ class QuestionController extends RestController
     $this->load->library('form_validation');
   }
 
-  public function allQuestions_get()
-  {
-    $result = $this->question_model->getAllQuestions();
-    echo json_encode($result);
-  }
-
-  public function deleteQuestion_delete($questionId)
-  {
-    $result = $this->question_model->deleteQuestion($questionId);
-    if ($result > 0) {
-      $this->response(['status' => true, 'message' => 'Question Deleted'], RestController::HTTP_OK);
-    } else {
-      $this->response(['status' => true, 'message' => 'Question Deletion Failed'], RestController::HTTP_BAD_REQUEST);
-    }
-  }
-
   public function addQuestion_post()
   {
     $this->form_validation->set_rules('title', 'Question Title', 'required', array('required' => 'Question Title is Mandotory.'));
@@ -65,6 +49,51 @@ class QuestionController extends RestController
         $this->session->set_flashdata('status', 'Something Went Wrong.!');
         $this->response(['status' => true, 'message' => 'Failed Adding Question'], RestController::HTTP_BAD_REQUEST);
       }
+    }
+  }
+
+  public function modal_get()
+  {
+    $this->load->view('edit_question_view');
+  }
+
+  public function allQuestions_get()
+  {
+    $result = $this->question_model->getAllQuestions();
+    echo json_encode($result);
+  }
+
+  public function editQuestion_put($questionId, $userId)
+  {
+    if ($this->session->userdata('auth_user')['userId'] == $userId) {
+      $questionTitle = $this->put('questionTitle');
+      $questionCategory = $this->put('questionCategory');
+      $questionTag = $this->put('questionTag');
+      $questionDescription = $this->put('questionDescription');
+      $data = array(
+        'title' => $questionTitle,
+        'category' => $questionCategory,
+        'tag' => $questionTag,
+        'description' => $questionDescription
+      );
+      $result = $this->question_model->editQuestion($questionId, $data);
+      if ($result) {
+        $this->response(['status' => true, 'message' => 'Question Edited'], RestController::HTTP_OK);
+      }
+    } else {
+      $this->response(['status' => false, 'message' => 'Question Editing Failed'], RestController::HTTP_OK);
+    }
+  }
+
+  public function deleteQuestion_delete($questionId, $userId)
+  {
+    if ($this->session->userdata('auth_user')['userId'] == $userId) {
+      $result = $this->question_model->deleteQuestion($questionId);
+      if ($result) {
+        $this->response(['status' => true, 'message' => 'Question Deleted'], RestController::HTTP_OK);
+      }
+    } else {
+      $this->response(['status' => false, 'message' => 'Question Deletion Failed'], RestController::HTTP_OK);
     }
   }
 }

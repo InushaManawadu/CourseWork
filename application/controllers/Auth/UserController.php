@@ -43,9 +43,11 @@ class UserController extends RestController
       $errors = validation_errors();
       echo json_encode(['error' => $errors]);
     } else {
+      $password = $this->input->post('login_password');
+      $verified_password = password_verify($password, PASSWORD_DEFAULT);
       $data = [
         'login_email' => $this->input->post('login_email'),
-        'login_password' => $this->input->post('login_password')
+        'login_password' => $verified_password
       ];
       $result = $this->user_model->login($data);
       if ($result != FALSE) {
@@ -96,11 +98,13 @@ class UserController extends RestController
       $errors = validation_errors();
       echo json_encode(['error' => $errors]);
     } else {
+      $password = $this->input->post('password');
+      $hashed_password = password_hash($password, PASSWORD_DEFAULT);
       $data = array(
         'name' => $this->input->post('name'),
         'email' => $this->input->post('email'),
-        'password' => $this->input->post('password'),
-        'confirm_password' => $this->input->post('confirm_password')
+        'password' => $hashed_password,
+        'confirm_password' => $hashed_password
       );
 
       $checking = $this->user_model->register($data);

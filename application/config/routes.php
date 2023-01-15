@@ -60,6 +60,8 @@ $route['api/login']['POST'] = 'Auth/UserController/login';
 $route['api/logout']['GET'] = 'Auth/UserController/logout';
 
 $route['api/addQuestion']['POST'] = 'Auth/QuestionController/addQuestion';
-$route['api/deleteQuestion/(:any)'] = 'Auth/QuestionController/deleteQuestion/$1';
+$route['api/modal']['GET'] = 'Auth/QuestionController/modal';
+$route['api/delete/(:any)/(:any)'] = 'Auth/QuestionController/deleteQuestion/$1/$2';
+$route['api/edit/(:any)/(:any)'] = 'Auth/QuestionController/editQuestion/$1/$2';
 $route['api/allQuestions']['GET'] = 'Auth/QuestionController/allQuestions';
 $route['api/userDetails']['GET'] = 'Auth/UserController/userDetails';

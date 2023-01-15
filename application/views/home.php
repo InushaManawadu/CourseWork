@@ -84,8 +84,10 @@
 
     </div>
   </div>
+  <div id="modal-container">
+    <?php include "edit_question_view.php"; ?>
+  </div>
   <div class="items" id="items">
-
   </div>
 </body>
 <script>
@@ -126,7 +128,7 @@
         for (var i = 0; i < response.length; i++) {
           html +=
             '<div class = "card mt-2 mb-3 ml-4 mr-4 bg-white" id="card-' + response[i]['questionId'] + '" style=" border: 2px solid #ccc;">' +
-            '<div class = " card-body" style="margin-top: -40px">' +
+            '<div class = "test' + response[i]['questionId'] + ' card-body" style="margin-top: -40px" id="' + response[i]['userId'] + '">' +
             '<div class = "card-body mt-0 d-inline-block text-left" >' +
             '<p class = "card-text" >' +
             '<p> Created By:<b>' + ' Inusha Manawadu' + '</b></p> </div>' +
@@ -135,15 +137,15 @@
             '<i class = "far fa-calendar-alt" > </i> Date Created: <b>' + response[i]['createdAt'] + '</b> </p> </div>' +
             '<div class = "card-body d-inline-block text-left" >' +
             '<p class = "card-text" >' +
-            '<i class = "fas fa-random" > </i> Question Tags: <b>' + response[i]['tag'] + '</b >' +
+            '<i class = "fas fa-random" > </i> Question Tags: <b>' + response[i]['tag'] + ', ' + response[i]['category'] + '</b >' +
             '</p> </div>' +
             '<div class = "card mt-2 mb-3 ml-3 mr-3" >' +
             '<div class = "card-body" style="margin-top:-15px">' +
             '<h5 class = "card-title float-left" >' + response[i]['title'] + '</h5>' +
             '<h5 class = "card-title float-right" >' +
             '<?php if ($this->session->has_userdata('authenticated') == TRUE) { ?>' +
-            '<button style = "background:none; border:none; outline: none;" > <i class = "fas fa-edit mr-2" > </i></button >' +
-            '<button type="button" class="btnDelete"' + 'data-id="' + response[i]['questionId'] + '"' + 'style ="background:none; border:none; outline: none;" > <i class = "fas fa-trash-alt" > </i></button >' +
+            '<button class="btnEdit" style = "background:none; border:none; outline: none;" data-questiontitle=' + response[i]['title'] + ' data-questioncategory= ' + response[i]['category'] + ' data-questiontag= ' + response[i]['tag'] + ' data-questiondescription= ' + response[i]['description'] + ' data-questionid= ' + response[i]['questionId'] + '> <i class = "fas fa-edit mr-2" > </i></button >' +
+            '<button class="btnDelete"' + 'data-id="' + response[i]['questionId'] + '"' + 'style ="background:none; border:none; outline: none;" > <i class = "fas fa-trash-alt" > </i></button >' +
             '<?php } ?>' +
             '</h5></div> <p class = "card-text ml-3 mt-0" > ' + response[i]['description'] + ' </p> </div> <div class = "float-right mt-3 mr-3 mb-3" >' +
             '<button type = "button" class = "btn btn-outline-secondary mr-2" > Add Answer </button>' +
@@ -158,21 +160,80 @@
 </script>
 <Script>
   $(document).on('click', '.btnDelete', function() {
-    var cardId = $(this).data('id');
+    var questionId = $(this).data('id');
+    var id = '.test' + questionId;
+    var userId = $(id).attr('id');
     $.ajax({
-      url: 'deleteQuestion/' + cardId,
+      url: 'delete/' + questionId + "/" + userId,
       method: 'DELETE',
       dataType: 'json',
       data: {
-        questionId: cardId
+        questionId: questionId,
+        userId: userId
       },
       success: function(result) {
-        $('#card-' + cardId).remove();
-      },
-      error: function(response) {
-        console.log(response)
+        if (result.status) {
+          $('#card-' + questionId).remove();
+        } else(
+          alert('You are not authotized to delete questions posted by the other users.')
+        )
       }
     });
+  });
+
+  $(document).on('click', '.btnEdit', function() {
+    var questionId = $(this).data('questionid');
+    var questionTitle = $(this).data('questiontitle');
+    var questionCategory = $(this).data('questioncategory');
+    var questionTag = $(this).data('questiontag');
+    var questionDescription = $(this).data('questiondescription');
+    console.log(questionTitle)
+    var id = '.test' + questionId;
+    var userId = $(id).attr('id');
+
+    $.ajax({
+      url: 'modal',
+      type: 'GET',
+      success: function(response) {
+        $('#modal-container').html(response);
+        $('#editTitle').val(questionTitle);
+        $('#editCategoryDropdown').val(questionCategory);
+        $('#editTagDropdown').val(questionTag);
+        $('#editDescription').val(questionDescription);
+        // tinyMCE.get('editDescription').setContent(questionDescription);
+        $('#editQuestionModal').modal('show');
+      }
+    });
+    $(document).on('click', '#btnEditQuestion', function() {
+      var questionTitleNew = $('#editTitle').val();
+      var questionCategoryNew = $('#editCategoryDropdown').val();
+      var questionTagNew = $('#editTagDropdown').val();
+      var questionDescriptionNew = $('#editDescription').val();
+      $.ajax({
+        url: 'edit/' + questionId + "/" + userId,
+        type: 'PUT',
+        data: {
+          userId: userId,
+          questionTitle: questionTitleNew,
+          questionCategory: questionCategoryNew,
+          questionTag: questionTagNew,
+          questionDescription: questionDescriptionNew
+        },
+        success: function(response) {
+          if (response.status) {
+            $('#editQuestionModal').modal('hide');
+            $('.modal-backdrop').remove();
+            location.reload();
+          } else {
+            alert('You are not authotized to edit questions posted by the other users.')
+            $('#editQuestionModal').modal('hide');
+            $('.modal-backdrop').remove();
+          }
+
+        }
+      })
+    })
+
   });
 </script>
 
