@@ -82,6 +82,9 @@
   });
 </script>
 <script>
+  /* Script to handle the click event of the "Add Question" button, including an AJAX call 
+    to add the question to the database.
+  */
   $('#btnAddQuestion').click(function() {
     $.ajax({
       url: 'addQuestion',

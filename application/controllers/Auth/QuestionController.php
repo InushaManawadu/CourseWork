@@ -7,6 +7,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . '/libraries/RestController.php';
 require APPPATH . '/libraries/Format.php';
 
+/* 
+  This rest contoller defines the functions need to implement the activities related to question.
+  The following methods are presented in this controller.
+    1. addQuestion       Type - POST     Main purpose - to add a new question to the database.
+    2. modal             Type - GET      Main purpose - to add load the modal.
+    3. allQuestions      Type - GET      Main purpose - get all questions from the database.
+    4. editQuestion      Type - PUT      Main purpose - to update a question in the database.
+    5. deleteQuestion    Type - DELETE   Main purpose - to delete a question in the database.
+    6. addQuestion       Type - POST     Main purpose - to add a new question to the database.
+*/
+
 class QuestionController extends RestController
 {
   public function __construct()

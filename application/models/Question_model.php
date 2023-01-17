@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/* 
+  Defines the question model. This makes connections with the database to add questions to the database,
+  delete questions from the database, and edit questions in the database.
+*/
+
 class Question_model extends CI_Model
 {
   public function __construct()

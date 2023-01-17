@@ -91,6 +91,7 @@
   </div>
 </body>
 <script>
+  // AJAX call to logout functionality
   $('#btnLogout').click(function() {
     $.ajax({
       url: 'logout',
@@ -103,6 +104,7 @@
   });
 </script>
 <script>
+  // AJAX call to retrieve all the questions from the database when page is loading
   $(document).ready(function() {
     var array = [];
     $.ajax({
@@ -159,6 +161,7 @@
   })
 </script>
 <Script>
+  // AJAX call to delete a question from the database
   $(document).on('click', '.btnDelete', function() {
     var questionId = $(this).data('id');
     var id = '.test' + questionId;
@@ -180,7 +183,7 @@
       }
     });
   });
-
+  //Retrieves the data attribute from the clicked element
   $(document).on('click', '.btnEdit', function() {
     var questionId = $(this).data('questionid');
     var questionTitle = $(this).data('questiontitle');
@@ -191,6 +194,7 @@
     var id = '.test' + questionId;
     var userId = $(id).attr('id');
 
+    // AJAX call to get the modal window for editing a question
     $.ajax({
       url: 'modal',
       type: 'GET',
@@ -204,6 +208,8 @@
         $('#editQuestionModal').modal('show');
       }
     });
+
+    // Populate data in the input fields of edit view modal
     $(document).on('click', '#btnEditQuestion', function() {
       var questionTitleNew = $('#editTitle').val();
       var questionCategoryNew = $('#editCategoryDropdown').val();
@@ -229,7 +235,6 @@
             $('#editQuestionModal').modal('hide');
             $('.modal-backdrop').remove();
           }
-
         }
       })
     })

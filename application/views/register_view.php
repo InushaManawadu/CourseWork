@@ -80,7 +80,7 @@
           $(".print-error-msg").css('display', 'none');
           $('#registerModal').modal('hide');
           $('.modal-backdrop').remove();
-          // location.reload();
+          location.reload();
         } else {
           $(".print-error-msg").css('display', 'block');
           $(".print-error-msg").html(data.error);

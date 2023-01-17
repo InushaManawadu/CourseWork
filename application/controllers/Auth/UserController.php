@@ -7,16 +7,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . '/libraries/RestController.php';
 require APPPATH . '/libraries/Format.php';
 
+/* 
+  This rest contoller defines the functions need to implement the activities related to question.
+  The following methods are presented in this controller.
+    1. index              Type - GET      Main purpose - to load the index page/home page of the application.
+    2. login              Type - POST     Main purpose - to login in user to the system.
+    3. logout             Type - GET      Main purpose - to logout the user from the system.
+    4. register           Type - POST     Main purpose - to create and register a new user to the database.
+    5. userDetails        Type - GET      Main purpose - get the details of the currently loggein user.
+*/
+
 class UserController extends RestController
 {
   public function __construct()
   {
     parent::__construct();
     if ($this->session->has_userdata('authenticated')) {
-
       $this->session->set_flashdata('status', 'You are already Loggedin!');
-      // echo json_encode(['You are already Loggedin!']);
-      // redirect(base_url('register'));
     }
     $this->load->model('user_model');
     $this->load->model('question_model');
@@ -112,10 +119,8 @@ class UserController extends RestController
       if ($checking) {
         $this->session->set_flashdata('status', 'Registered Successfully.! Go to Login');
         echo json_encode(['success' => 'Record added successfully.']);
-        // redirect(base_url('login'));
       } else {
         $this->session->set_flashdata('status', 'Something Went Wrong.!');
-        // redirect(base_url('register'));
       }
     }
   }

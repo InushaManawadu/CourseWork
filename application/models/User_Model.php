@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/* 
+  Defines the user model. This makes connections with the database to register a user, login a user
+  and logout a user. Aparat from that addition functions like getUserDetails, getUserCount, getUserId
+  are faciltates the functionality to get details of the currently logged in user, return the total number of
+  registered users and returns the userId of the logged in user.
+*/
 class User_model extends CI_Model
 {
   public function __construct()
