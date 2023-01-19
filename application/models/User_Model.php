@@ -16,8 +16,12 @@ class User_model extends CI_Model
 
   public function register($data)
   {
-    $this->db->insert('users', $data);
-    return $this->db->insert_id();
+    $insert = $this->db->insert('users', $data);
+    if ($insert) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public function login($data)

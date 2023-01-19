@@ -29,6 +29,7 @@ class UserController extends RestController
     $this->load->model('question_model');
     $this->load->helper('form');
     $this->load->library('form_validation');
+    $this->load->library('encryption');
   }
 
   public function index_get()
@@ -51,7 +52,8 @@ class UserController extends RestController
       echo json_encode(['error' => $errors]);
     } else {
       $password = $this->input->post('login_password');
-      $verified_password = password_verify($password, PASSWORD_DEFAULT);
+      $decryptedPassword = $this->encryption->decrypt($password);
+      $verified_password = password_verify($decryptedPassword, PASSWORD_DEFAULT);
       $data = [
         'login_email' => $this->input->post('login_email'),
         'login_password' => $verified_password
@@ -113,14 +115,13 @@ class UserController extends RestController
         'password' => $hashed_password,
         'confirm_password' => $hashed_password
       );
-
       $checking = $this->user_model->register($data);
-      log_message('debug', 'entered');
       if ($checking) {
         $this->session->set_flashdata('status', 'Registered Successfully.! Go to Login');
-        echo json_encode(['success' => 'Record added successfully.']);
+        echo json_encode(['success' => 'User Registraion is Successfull.']);
       } else {
         $this->session->set_flashdata('status', 'Something Went Wrong.!');
+        echo json_encode(['success' => 'User Registration is Unsuccessfull.']);
       }
     }
   }
