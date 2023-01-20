@@ -15,8 +15,12 @@ class Question_model extends CI_Model
 
   public function addQuestion($data)
   {
-    $this->db->insert('questions', $data);
-    return $this->db->insert_id();
+    $insert = $this->db->insert('questions', $data);
+    if ($insert) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public function editQuestion($questionId, $data)

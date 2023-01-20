@@ -21,7 +21,7 @@
                 <div class="d-flex flex-row align-items-center justify-content-start mb-4">
                   <label class="form-label inline" for="title"><b>Question</b></label>
                   <div class="form-outline flex-fill mb-0">
-                    <input type="text" id="title" name="title" class="form-control ml-3" placeholder="Question Title" />
+                    <input type="text" id="title" name="title" class="form-control ml-3" />
                   </div>
                 </div>
                 <div class="d-flex flex-row align-items-center justify-content-start mb-4">

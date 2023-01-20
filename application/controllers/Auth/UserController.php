@@ -29,7 +29,6 @@ class UserController extends RestController
     $this->load->model('question_model');
     $this->load->helper('form');
     $this->load->library('form_validation');
-    $this->load->library('encryption');
   }
 
   public function index_get()

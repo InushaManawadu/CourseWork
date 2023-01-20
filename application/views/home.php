@@ -133,7 +133,7 @@
             '<div class = "test' + response[i]['questionId'] + ' card-body" style="margin-top: -40px" id="' + response[i]['userId'] + '">' +
             '<div class = "card-body mt-0 d-inline-block text-left" >' +
             '<p class = "card-text" >' +
-            '<p> Created By:<b>' + ' Inusha Manawadu' + '</b></p> </div>' +
+            '<p> Created By:<b>' + '' + '</b></p> </div>' +
             '<div class = "card-body d-inline-block text-left" >' +
             '<p class = "card-text" >' +
             '<i class = "far fa-calendar-alt" > </i> Date Created: <b>' + response[i]['createdAt'] + '</b> </p> </div>' +
