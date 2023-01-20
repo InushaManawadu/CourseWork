@@ -22,11 +22,12 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+      <?php include "search_result_view.php"; ?>
       <form class="form-inline my-2 my-lg-0">
         <div class="input-group" style="margin-left: 150px;">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" id="search" placeholder="Search">
           <div class="input-group-append">
-            <button class="btn btn-secondary" type="button" style="border: none;"><i class="fa fa-search"></i></button>
+            <button class="btn btn-secondary" id="btnSearch" type="button" style="border: none;"><i class="fa fa-search"></i></button>
           </div>
         </div>
       </form>
@@ -66,6 +67,8 @@
     </div>
     <div class="col-md-4 d-flex flex-column">
       <h2><b>Our Statistics</b></h2>
+      <div class="card mb-3" style="background-color:#6BADF1; border:none">
+      </div>
       <div class="card mb-3" style="background-color:#6BADF1; border:none">
         <div class="card-body rounded" style="display: inline-block;">
           <h4>Questions <?php echo $count ?></h4>
@@ -239,6 +242,63 @@
       })
     })
 
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" integrity="sha512-7fNh7OUGa7bdpmSQ81iNxgBywspNTxVxBxfbT1gSnQ124VGfksj3AR/QGhdYaO8ZLHBLSoaa+VsVDgw795eBaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js" integrity="sha512-2iFkil35hkKA78DUZ8CwBt3lvbJndUGmCqTQfPqNoFT0RgDMmPGG7jCoVq9OUTGKY7THczZwBh4sUd0QyQiJrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  var SearchView = Backbone.View.extend({
+    events: {
+      'click #btnSearch': 'search'
+    },
+
+    initialize: function() {
+      this.input = this.$("#search");
+    },
+
+    search: function() {
+      var keyword = this.input.val();
+      if (keyword) {
+        $.ajax({
+          url: "search",
+          method: "POST",
+          dataType: 'json',
+          data: {
+            keyword: keyword
+          },
+          success: function(response) {
+            if (response.status) {
+              this.render(response.data);
+            } else {
+              alert("No Results Found.")
+            }
+          }.bind(this)
+        });
+      } else {
+        alert("Search field is empty.");
+      }
+    },
+
+    render: function(data) {
+      var modalBody = $("#search-modal .modal-body");
+      modalBody.empty();
+      for (var i = 0; i < data.length; i++) {
+        var question = data[i];
+        var html = '<div class="card mb-3">' +
+          '<div class="card-body">' +
+          '<h5 class="card-title">' + question.title + '</h5>' +
+          '<p class="card-text"><b>Description:</b> ' + question.description + '</p>' +
+          '<p class="card-text"><b>Category:</b> ' + question.category + '</p>' +
+          '</div>' +
+          '</div>';
+        modalBody.append(html);
+      }
+      $("#search-modal").modal("show");
+    }
+  });
+
+  var searchView = new SearchView({
+    el: 'form'
   });
 </script>
 

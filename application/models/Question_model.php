@@ -53,4 +53,16 @@ class Question_model extends CI_Model
       return "";
     }
   }
+
+  public function get_question($search_input)
+  {
+    $this->db->select('*');
+    $this->db->from('questions');
+    $this->db->like('title', $search_input);
+    $this->db->or_like('description', $search_input);
+    $this->db->or_like('category', $search_input);
+    $this->db->or_like('tag', $search_input);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
 }

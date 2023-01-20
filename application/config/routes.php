@@ -65,3 +65,5 @@ $route['api/delete/(:any)/(:any)'] = 'Auth/QuestionController/deleteQuestion/$1/
 $route['api/edit/(:any)/(:any)'] = 'Auth/QuestionController/editQuestion/$1/$2';
 $route['api/allQuestions']['GET'] = 'Auth/QuestionController/allQuestions';
 $route['api/userDetails']['GET'] = 'Auth/UserController/userDetails';
+
+$route['api/search'] = 'Auth/QuestionController/search';

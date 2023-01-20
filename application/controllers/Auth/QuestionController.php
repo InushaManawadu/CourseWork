@@ -107,4 +107,20 @@ class QuestionController extends RestController
       $this->response(['status' => false, 'message' => 'Question Deletion Failed'], RestController::HTTP_OK);
     }
   }
+
+  public function search_post()
+  {
+    $keyword = $this->input->post('keyword');
+    if (empty($keyword)) {
+      echo json_encode(['message' => 'Keyword is missing']);
+      return;
+    }
+    $data = $this->question_model->get_question($keyword);
+    //echo json_encode($data);
+    if ($data) {
+      $this->response(['status' => true, 'data' => $data, 'message' => 'Question Edited'], RestController::HTTP_OK);
+    } else {
+      $this->response(['status' => false, 'message' => 'Question Editing Failed'], RestController::HTTP_OK);
+    }
+  }
 }
