@@ -39,6 +39,19 @@ class User_model extends CI_Model
     }
   }
 
+  function get_password_by_email($email)
+  {
+    $this->db->select('password');
+    $this->db->from('users');
+    $this->db->where('email', $email);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->row()->password;
+    } else {
+      return false;
+    }
+  }
+
   public function getUserCount()
   {
     $query = $this->db->query('SELECT * FROM users');

@@ -51,28 +51,41 @@ class UserController extends RestController
       $errors = validation_errors();
       echo json_encode(['error' => $errors]);
     } else {
+      $email = $this->input->post('login_email');
       $password = $this->input->post('login_password');
-      $decryptedPassword = $this->encryption->decrypt($password);
-      $verified_password = password_verify($decryptedPassword, PASSWORD_DEFAULT);
-      $data = [
-        'login_email' => $this->input->post('login_email'),
-        'login_password' => $verified_password
-      ];
-      $result = $this->user_model->login($data);
-      if ($result != FALSE) {
-        $authentication = [
-          'login_name' => $result->name,
-          'login_email' => $result->email,
-          'login_password' => $result->email,
-          'userId' => $result->userId
+
+      // Retrieve the hashed password from the database
+      $hashed_password = $this->user_model->get_password_by_email($email);
+
+      if (password_verify($password, $hashed_password)) {
+        $data = [
+          'login_email' => $email,
+          'login_password' => $hashed_password
         ];
-        $response = array(
-          "success" => true
-        );
-        $this->session->set_userdata('authenticated', '1');
-        $this->session->set_userdata('auth_user', $authentication);
-        $this->session->set_flashdata('status', 'Loggedin Successfully');
-        echo json_encode($response);
+        $result = $this->user_model->login($data);
+        if ($result != FALSE) {
+          $authentication = [
+            'login_name' => $result->name,
+            'login_email' => $result->email,
+            'login_password' => $result->email,
+            'userId' => $result->userId
+          ];
+          $response = array(
+            "success" => true,
+            "message" => "Login Successfull."
+          );
+          $this->session->set_userdata('authenticated', '1');
+          $this->session->set_userdata('auth_user', $authentication);
+          $this->session->set_flashdata('status', 'Loggedin Successfully');
+          echo json_encode($response);
+        } else {
+          $response = array(
+            "success" => false,
+            "error" => "Invalid Credentials. Please Try Again."
+          );
+          $this->session->set_flashdata('status', 'Invalid Credentials. Please Try Again.');
+          echo json_encode($response);
+        }
       } else {
         $response = array(
           "success" => false,
