@@ -33,11 +33,16 @@ class UserController extends RestController
 
   public function index_get()
   {
-    $count = $this->user_model->getUserCount();
-    $count = json_encode($count);
+    $userCount = $this->user_model->getUserCount();
+    $userCount = json_encode($userCount);
+
+    $questionCount = $this->user_model->getQuestionCount();
+    $questionCount = json_encode($questionCount);
+
     $result = $this->currentUserQuestions();
     $result = json_encode($result);
-    $data = array('count' => $count, 'result' => $result);
+
+    $data = array('userCount' => $userCount, 'questionCount' => $questionCount, 'result' => $result);
     $this->load->view('home', $data);
   }
 

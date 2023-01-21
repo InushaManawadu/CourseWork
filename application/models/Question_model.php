@@ -54,7 +54,7 @@ class Question_model extends CI_Model
     }
   }
 
-  public function get_question($search_input)
+  public function search($search_input)
   {
     $this->db->select('*');
     $this->db->from('questions');
@@ -64,5 +64,23 @@ class Question_model extends CI_Model
     $this->db->or_like('tag', $search_input);
     $query = $this->db->get();
     return $query->result_array();
+  }
+
+  public function upVote($questionId)
+  {
+    $this->db->set('upVote', 'upVote+1', FALSE);
+    $this->db->where('questionId', $questionId);
+    $this->db->update('questions');
+    $query = $this->db->get_where('questions', array('questionId' => $questionId));
+    return $query->row()->upVote;
+  }
+
+  public function downVote($questionId)
+  {
+    $this->db->set('downVote', 'downVote+1', FALSE);
+    $this->db->where('questionId', $questionId);
+    $this->db->update('questions');
+    $query = $this->db->get_where('questions', array('questionId' => $questionId));
+    return $query->row()->downVote;
   }
 }

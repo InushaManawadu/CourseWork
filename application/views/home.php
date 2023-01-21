@@ -67,21 +67,21 @@
     </div>
     <div class="col-md-4 d-flex flex-column">
       <h2><b>Statistics</b></h2>
-      <div class="card mb-3" style="background-color:#E5E0FF; border:none">
+      <div class="card mb-3" style="background-color:#87A2FB; border:none">
       </div>
-      <div class="card mb-3" style="background-color:#E5E0FF; border:none">
+      <div class="card mb-3" style="background-color:#9CC094; border:none">
         <div class="card-body rounded" style="display: inline-block;">
-          <h4><i>Questions</i> <?php echo $count ?></h4>
+          <h4>Questions Posted <?php echo $questionCount ?></h4>
         </div>
       </div>
-      <div class="card mb-3 mt-4" style="background-color:#E5E0FF; border:none">
+      <div class="card mb-3 mt-4" style="background-color:#719FB0; border:none">
         <div class=" card-body rounded" style="background-color:none">
-          <h4><i>Answeres</i></h4>
+          <h4>Questions Answered</h4>
         </div>
       </div>
-      <div class="card mb-3 mt-4" style="background-color:#E5E0FF; border:none">
+      <div class="card mb-3 mt-4" style="background-color:#A3D2CA; border:none">
         <div class=" card-body rounded" style="background-color:none">
-          <h4><i>Users</i></h4>
+          <h4>Registered Users <?php echo $userCount ?></h4>
         </div>
       </div>
 
@@ -132,7 +132,7 @@
         var responses = array;
         for (var i = 0; i < response.length; i++) {
           html +=
-            '<div class = "card mt-2 mb-3 ml-4 mr-4 " id="card-' + response[i]['questionId'] + '" style=" border: 2px solid black; background-color:#FAF8F1;">' +
+            '<div class = "card mt-2 mb-3 ml-4 mr-4 " id="card-' + response[i]['questionId'] + '" style=" border: 2px solid black; background-color:#FDEFEF;">' +
             '<div class = "test' + response[i]['questionId'] + ' card-body" style="margin-top: -40px" id="' + response[i]['userId'] + '">' +
             '<div class = "card-body mt-0 d-inline-block text-left" >' +
             '<p class = "card-text" >' +
@@ -144,7 +144,7 @@
             '<p class = "card-text" >' +
             '<i class = "fas fa-random" > </i> Question Tags: <b>' + response[i]['tag'] + ', ' + response[i]['category'] + '</b >' +
             '</p> </div>' +
-            '<div class = "card mb-3 ml-3 mr-3" style=" border: 1px solid black; background-color: #FAF8F1; margin-top:-15px" >' +
+            '<div class = "card mb-3 ml-3 mr-3" style=" border: 1px solid black; background-color: #FDF6F0; margin-top:-15px" >' +
             '<div class = "card-body" style="margin-top:-15px;">' +
             '<h5 class = "card-title float-left">' + response[i]['title'] + '</h5>' +
             '<h5 class = "card-title float-right" >' +
@@ -152,10 +152,19 @@
             '<button class="btnEdit" style = "background:none; border:none; outline: none;" data-questiontitle=' + response[i]['title'] + ' data-questioncategory= ' + response[i]['category'] + ' data-questiontag= ' + response[i]['tag'] + ' data-questiondescription= ' + response[i]['description'] + ' data-questionid= ' + response[i]['questionId'] + '> <i class = "fas fa-edit mr-2" > </i></button >' +
             '<button class="btnDelete"' + 'data-id="' + response[i]['questionId'] + '"' + 'style ="background:none; border:none; outline: none;" > <i class = "fas fa-trash-alt" > </i></button >' +
             '<?php } ?>' +
-            '</h5></div> <p class = "card-text ml-3 mt-0" > ' + response[i]['description'] + ' </p> </div> <div class = "float-right mt-1 mr-3 mb-1" >' +
-            '<button type = "button" class = "btn btn-outline-secondary mr-2" > Add Answer </button>' +
-            '<button type = "button" class = "btn btn-outline-secondary" > Answers </button>' +
-            '</div> </div> </div>'
+            '</h5></div> <p class = "card-text ml-3 mt-0" > ' + response[i]['description'] + ' </p> </div>' +
+            '<div class = "float-left mt-1 ml-3">' +
+            '<button type = "button" class = "btn mr-2" id="btnUpVote" style="background-color: #1C6DD0; color: white;" data-id="' + response[i]['questionId'] + '">' + '<i class="fas fa-arrow-up"></i>' + response[i]['upVote'] + '</button>' +
+            '<button type = "button" class = "btn" id="btnDownVote" style="background-color: #F05454; color: white;" data-id="' + response[i]['questionId'] + '">' + '<i class="fas fa-arrow-down"></i>' + response[i]['downVote'] + '</button>' +
+            '</div>' +
+            '<div class = "float-right mt-1 mr-3 mb-1" >' +
+            '<?php if ($this->session->has_userdata('authenticated') == TRUE) { ?>' +
+            '<button type = "button" class = "btn mr-2" style="background-color: #1746A2; color: white;"> Add Answer </button>' +
+            '<?php } ?>' +
+            '<button type = "button" class = "btn" style="background-color: #1746A2; color: white;"> Answers </button>' +
+            '</div>' +
+            '</div>' +
+            '</div>'
         }
         $('#items').html(html);
         // console.log(responses)
@@ -186,6 +195,33 @@
       }
     });
   });
+
+  $(document).on('click', '#btnUpVote', function() {
+    var questionId = $(this).data('id');
+    var button = $(this);
+    $.ajax({
+      url: 'upVote/' + questionId,
+      method: 'PUT',
+      dataType: 'json',
+      success: function(data) {
+        button.html('<i class="fas fa-arrow-up"></i> ' + data);
+      }
+    })
+  });
+
+  $(document).on('click', '#btnDownVote', function() {
+    var questionId = $(this).data('id');
+    var button = $(this);
+    $.ajax({
+      url: 'downVote/' + questionId,
+      method: 'PUT',
+      dataType: 'json',
+      success: function(data) {
+        button.html('<i class="fas fa-arrow-up"></i> ' + data);
+      }
+    })
+  });
+
   //Retrieves the data attribute from the clicked element
   $(document).on('click', '.btnEdit', function() {
     var questionId = $(this).data('questionid');
@@ -241,7 +277,6 @@
         }
       })
     })
-
   });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" integrity="sha512-7fNh7OUGa7bdpmSQ81iNxgBywspNTxVxBxfbT1gSnQ124VGfksj3AR/QGhdYaO8ZLHBLSoaa+VsVDgw795eBaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

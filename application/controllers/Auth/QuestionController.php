@@ -115,12 +115,24 @@ class QuestionController extends RestController
       echo json_encode(['message' => 'Keyword is missing']);
       return;
     }
-    $data = $this->question_model->get_question($keyword);
+    $data = $this->question_model->search($keyword);
     //echo json_encode($data);
     if ($data) {
       $this->response(['status' => true, 'data' => $data, 'message' => 'Question Edited'], RestController::HTTP_OK);
     } else {
       $this->response(['status' => false, 'message' => 'Question Editing Failed'], RestController::HTTP_OK);
     }
+  }
+
+  public function upVote_put($questionId)
+  {
+    $upCount = $this->question_model->upvote($questionId);
+    echo json_encode($upCount);
+  }
+
+  public function downVote_put($questionId)
+  {
+    $downCount = $this->question_model->downvote($questionId);
+    echo json_encode($downCount);
   }
 }

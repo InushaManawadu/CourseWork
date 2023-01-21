@@ -67,3 +67,5 @@ $route['api/allQuestions']['GET'] = 'Auth/QuestionController/allQuestions';
 $route['api/userDetails']['GET'] = 'Auth/UserController/userDetails';
 
 $route['api/search'] = 'Auth/QuestionController/search';
+$route['api/upVote/(:any)'] = 'Auth/QuestionController/upVote/$1';
+$route['api/downVote/(:any)'] = 'Auth/QuestionController/downVote/$1';
