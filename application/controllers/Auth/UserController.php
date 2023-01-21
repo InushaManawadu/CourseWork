@@ -39,10 +39,13 @@ class UserController extends RestController
     $questionCount = $this->user_model->getQuestionCount();
     $questionCount = json_encode($questionCount);
 
+    $answeredCount = $this->user_model->getAnsweredCount();
+    $answeredCount = json_encode($answeredCount);
+
     $result = $this->currentUserQuestions();
     $result = json_encode($result);
 
-    $data = array('userCount' => $userCount, 'questionCount' => $questionCount, 'result' => $result);
+    $data = array('userCount' => $userCount, 'questionCount' => $questionCount, 'answered' => $answeredCount, 'result' => $result);
     $this->load->view('home', $data);
   }
 

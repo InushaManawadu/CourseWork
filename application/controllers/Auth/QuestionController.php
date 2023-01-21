@@ -118,9 +118,9 @@ class QuestionController extends RestController
     $data = $this->question_model->search($keyword);
     //echo json_encode($data);
     if ($data) {
-      $this->response(['status' => true, 'data' => $data, 'message' => 'Question Edited'], RestController::HTTP_OK);
+      $this->response(['status' => true, 'data' => $data, 'message' => 'Search is successful'], RestController::HTTP_OK);
     } else {
-      $this->response(['status' => false, 'message' => 'Question Editing Failed'], RestController::HTTP_OK);
+      $this->response(['status' => false, 'message' => 'Search is unsuccessfull'], RestController::HTTP_OK);
     }
   }
 

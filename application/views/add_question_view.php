@@ -6,7 +6,7 @@
   <div class="modal fade" id="addQuestionModal" tabindex="-1" role="dialog" aria-labelledby="addQuestionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document" style="top: 8%; width: 1000px;">
       <div class="modal-content">
-        <div class="modal-header text-center">
+        <div class="modal-header text-center" style="border-bottom: 2px solid #ccc;">
           <h5 class=" modal-title w-100" id="addQuestionModalLabel">Add Question</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -14,14 +14,14 @@
         </div>
         <div class="modal-body">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body" style="border: 2px solid #ccc;">
               <div class="alert alert-danger print-error-msg" style="display:none">
               </div>
               <form class="mx-1 mx-md-4" id="addQuestion-form">
                 <div class="d-flex flex-row align-items-center justify-content-start mb-4">
                   <label class="form-label inline" for="title"><b>Question</b></label>
                   <div class="form-outline flex-fill mb-0">
-                    <input type="text" id="title" name="title" class="form-control ml-3" />
+                    <input type="text" id="title" name="title" class="form-control ml-3" style="border: 2px solid #ccc;" />
                   </div>
                 </div>
                 <div class="d-flex flex-row align-items-center justify-content-start mb-4">
@@ -29,7 +29,7 @@
                     <b>Category</b>
                   </label>
                   <div class="col-sm-6">
-                    <select class="form-control" id="categoryDropdown" name="category">
+                    <select class="form-control" id="categoryDropdown" name="category" style="border: 2px solid #ccc;">
                       <option style="display:none"></option>
                       <option>Programming</option>
                       <option>Database Systems</option>
@@ -43,7 +43,7 @@
                     <b>Tags</b>
                   </label>
                   <div class="col-sm-4">
-                    <select class="form-control" id="tagDropdown" name="tag">
+                    <select class="form-control" id="tagDropdown" name="tag" style="border: 2px solid #ccc;">
                       <option style="display:none"></option>
                       <option>Java</option>
                       <option>Python</option>
@@ -58,11 +58,11 @@
                 <div class="d-flex flex-row align-items-center justify-content-start mb-4">
                   <label class="form-label" for="description"><b>Description</b></label>
                   <div class="form-outline flex-fill mb-0 ml-1">
-                    <textarea id="description" name="question_description" class="form-control ml-2"></textarea>
+                    <textarea id="description" name="question_description" class="form-control ml-2" style="border: 2px solid #ccc;"></textarea>
                   </div>
                 </div>
                 <div class="text-right">
-                  <input id="btnAddQuestion" type="button" value="Add Question" class="btn btn-primary" />
+                  <input id="btnAddQuestion" type="button" value="Add Question" class="btn" style="background-color:#1746A2; color:white" />
                 </div>
               </form>
             </div>

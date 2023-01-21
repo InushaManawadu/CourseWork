@@ -64,6 +64,12 @@ class User_model extends CI_Model
     return $query->num_rows();
   }
 
+  public function getAnsweredCount()
+  {
+    $query = $this->db->query('SELECT * FROM answers');
+    return $query->num_rows();
+  }
+
   public function getUserId($email)
   {
     $this->db->select('userId');

@@ -74,21 +74,24 @@
           <h4>Questions Posted <?php echo $questionCount ?></h4>
         </div>
       </div>
-      <div class="card mb-3 mt-4" style="background-color:#719FB0; border:none">
-        <div class=" card-body rounded" style="background-color:none">
-          <h4>Questions Answered</h4>
-        </div>
-      </div>
       <div class="card mb-3 mt-4" style="background-color:#A3D2CA; border:none">
         <div class=" card-body rounded" style="background-color:none">
           <h4>Registered Users <?php echo $userCount ?></h4>
         </div>
       </div>
-
+      <div class="card mb-3 mt-4" style="background-color:#719FB0; border:none">
+        <div class=" card-body rounded" style="background-color:none">
+          <h4>Questions Answered</h4>
+        </div>
+      </div>
     </div>
   </div>
   <div id="modal-container">
     <?php include "edit_question_view.php"; ?>
+  </div>
+  <div id="modal-container">
+    <?php include "all_answers_view.php"; ?>
+    <?php include "add_answer_view.php"; ?>
   </div>
   <div class="items" id="items">
   </div>
@@ -159,9 +162,9 @@
             '</div>' +
             '<div class = "float-right mt-1 mr-3 mb-1" >' +
             '<?php if ($this->session->has_userdata('authenticated') == TRUE) { ?>' +
-            '<button type = "button" class = "btn mr-2" style="background-color: #1746A2; color: white;"> Add Answer </button>' +
+            '<button type = "button" class = "btn mr-2" id="btnAddAnswer" style="background-color: #1746A2; color: white;" data-userid="' + response[i]['userId'] + '"data-questionid="' + response[i]['questionId'] + '">' + 'Add Answer </button>' +
             '<?php } ?>' +
-            '<button type = "button" class = "btn" style="background-color: #1746A2; color: white;"> Answers </button>' +
+            '<button type = "button" class = "btn" id="btnAllAnswers" style="background-color: #1746A2; color: white;" data-questionid="' + response[i]['questionId'] + '">' + 'Answers </button>' +
             '</div>' +
             '</div>' +
             '</div>'
@@ -172,7 +175,74 @@
     });
   })
 </script>
-<Script>
+
+<script>
+  var questionId;
+  $(document).on('click', '#btnAddAnswer', function() {
+    questionId = $(this).data('questionid');
+    $.ajax({
+      url: 'answerModal',
+      type: 'GET',
+      success: function(response) {
+        $('#modal-container').html(response);
+        $('#addAnswerModal').modal('show');
+      }
+    });
+  });
+
+  $(document).on('click', '#btnEnterAnswer', function(event) {
+    var description = $('#answerdescription').val();
+    if (description) {
+      $.ajax({
+        url: 'addAnswer',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+          questionId: questionId,
+          description: description,
+        },
+        success: function(data) {
+          $('#addAnswerModal').modal('hide');
+          $('.modal-backdrop').remove();
+          location.reload();
+        }
+      });
+    } else {
+      alert("Answer area is empty.")
+    }
+  })
+</script>
+
+<script>
+  $(document).on('click', '#btnAllAnswers', function() {
+    var questionId = $(this).data('questionid');
+    $.ajax({
+      url: 'allAnswers/' + questionId,
+      method: 'GET',
+      dataType: 'json',
+      data: {
+        questionId: questionId
+      },
+      success: function(data) {
+        console.log(data);
+        var modalBody = $("#answer-modal .modal-body");
+        modalBody.empty();
+        for (var i = 0; i < data.length; i++) {
+          var answer = data[i];
+          var html = '<div class="card mb-3" style="border: 2px solid #ccc;">' +
+            '<div class="card-body">' +
+            '<p class="card-text"><b>Answer:</b> ' + answer.description + '</p>' +
+            '</div>' +
+            '</div>';
+          modalBody.append(html);
+        }
+        $("#answer-modal").modal("show");
+      }
+    })
+  });
+</script>
+
+<script>
   // AJAX call to delete a question from the database
   $(document).on('click', '.btnDelete', function() {
     var questionId = $(this).data('id');
@@ -229,7 +299,6 @@
     var questionCategory = $(this).data('questioncategory');
     var questionTag = $(this).data('questiontag');
     var questionDescription = $(this).data('questiondescription');
-    console.log(questionTitle)
     var id = '.test' + questionId;
     var userId = $(id).attr('id');
 
@@ -279,9 +348,12 @@
     })
   });
 </script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" integrity="sha512-7fNh7OUGa7bdpmSQ81iNxgBywspNTxVxBxfbT1gSnQ124VGfksj3AR/QGhdYaO8ZLHBLSoaa+VsVDgw795eBaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js" integrity="sha512-2iFkil35hkKA78DUZ8CwBt3lvbJndUGmCqTQfPqNoFT0RgDMmPGG7jCoVq9OUTGKY7THczZwBh4sUd0QyQiJrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
+  // ------------------------------------------ Backbone.js --------------------------------------- //
   var SearchView = Backbone.View.extend({
     events: {
       'click #btnSearch': 'search'
@@ -320,10 +392,12 @@
       for (var i = 0; i < data.length; i++) {
         var question = data[i];
         var html = '<div class="card mb-3">' +
-          '<div class="card-body">' +
+          '<div class="card-body" style="border: 2px solid #ccc">' +
           '<h5 class="card-title">' + question.title + '</h5>' +
-          '<p class="card-text"><b>Description:</b> ' + question.description + '</p>' +
-          '<p class="card-text"><b>Category:</b> ' + question.category + '</p>' +
+          '<hr/>' +
+          '<p class="card-text"><b>Question Description:</b> ' + question.description + '</p>' +
+          '<p class="card-text"><b>Question Category:</b> ' + question.category + '</p>' +
+          '<p class="card-text"><b>Question Tag:</b> ' + question.tag + '</p>' +
           '</div>' +
           '</div>';
         modalBody.append(html);
