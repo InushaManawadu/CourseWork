@@ -51,8 +51,6 @@
 </body>
 <script>
   $('#btnLogin').click(function() {
-    console.log($('#login_email').val());
-    console.log($('#login_password').val());
     $.ajax({
       url: 'login',
       method: 'POST',
@@ -62,7 +60,6 @@
         login_password: $('#login_password').val()
       },
       success: function(data) {
-        console.log(data)
         if ($.isEmptyObject(data.error)) {
           $(".print-error-msg").css('display', 'none');
           $('#loginModal').modal('hide');

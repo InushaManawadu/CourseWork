@@ -77,7 +77,6 @@
       },
       success: function(data) {
         if ($.isEmptyObject(data.error)) {
-          console.log("success");
           $(".print-error-msg").css('display', 'none');
           $('#registerModal').modal('hide');
           $('.modal-backdrop').remove();

@@ -69,12 +69,5 @@
     </div>
   </div>
 </body>
-<script>
-  tinymce.init({
-    selector: 'textarea#editDescription',
-    max_height: 300,
-    max_width: 400
-  });
-</script>
 
 </html>

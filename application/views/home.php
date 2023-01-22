@@ -152,7 +152,7 @@
             '<h5 class = "card-title float-left">' + response[i]['title'] + '</h5>' +
             '<h5 class = "card-title float-right" >' +
             '<?php if ($this->session->has_userdata('authenticated') == TRUE) { ?>' +
-            '<button class="btnEdit" style = "background:none; border:none; outline: none;" data-questiontitle=' + response[i]['title'] + ' data-questioncategory= ' + response[i]['category'] + ' data-questiontag= ' + response[i]['tag'] + ' data-questiondescription= ' + response[i]['description'] + ' data-questionid= ' + response[i]['questionId'] + '> <i class = "fas fa-edit mr-2" > </i></button >' +
+            '<button class="btnEdit" style = "background:none; border:none; outline: none;" data-questiontitle="' + response[i]['title'] + '" data-questioncategory="' + response[i]['category'] + '" data-questiontag="' + response[i]['tag'] + '" data-questiondescription="' + response[i]['description'] + '" data-questionid="' + response[i]['questionId'] + '"> <i class = "fas fa-edit mr-2" > </i></button >' +
             '<button class="btnDelete"' + 'data-id="' + response[i]['questionId'] + '"' + 'style ="background:none; border:none; outline: none;" > <i class = "fas fa-trash-alt" > </i></button >' +
             '<?php } ?>' +
             '</h5></div> <p class = "card-text ml-3 mt-0" > ' + response[i]['description'] + ' </p> </div>' +
@@ -170,7 +170,6 @@
             '</div>'
         }
         $('#items').html(html);
-        // console.log(responses)
       }
     });
   })
@@ -192,6 +191,7 @@
 
   $(document).on('click', '#btnEnterAnswer', function(event) {
     var description = $('#answerdescription').val();
+    //var description = tinymce.get("answerdescription").getContent();
     if (description) {
       $.ajax({
         url: 'addAnswer',
@@ -224,7 +224,6 @@
         questionId: questionId
       },
       success: function(data) {
-        console.log(data);
         var modalBody = $("#answer-modal .modal-body");
         modalBody.empty();
         for (var i = 0; i < data.length; i++) {
@@ -299,6 +298,7 @@
     var questionCategory = $(this).data('questioncategory');
     var questionTag = $(this).data('questiontag');
     var questionDescription = $(this).data('questiondescription');
+
     var id = '.test' + questionId;
     var userId = $(id).attr('id');
 
@@ -312,7 +312,6 @@
         $('#editCategoryDropdown').val(questionCategory);
         $('#editTagDropdown').val(questionTag);
         $('#editDescription').val(questionDescription);
-        // tinyMCE.get('editDescription').setContent(questionDescription);
         $('#editQuestionModal').modal('show');
       }
     });

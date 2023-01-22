@@ -31,5 +31,15 @@
       </div>
     </div>
 </body>
+<!-- <script src="https://cdn.tiny.cloud/1/j3e8tidbd0lubesziq2io8ww6bulkv8w2125ip5dbqxj0ncf/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+  $(document).ready(function() {
+    tinymce.init({
+      selector: 'textarea#answerdescription',
+      max_height: 400,
+      max_width: 500
+    });
+  });
+</script> -->
 
 </html>

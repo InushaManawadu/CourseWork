@@ -74,11 +74,14 @@
 </body>
 
 </html>
+<script src="https://cdn.tiny.cloud/1/j3e8tidbd0lubesziq2io8ww6bulkv8w2125ip5dbqxj0ncf/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-  tinymce.init({
-    selector: 'textarea#description',
-    max_height: 300,
-    max_width: 400
+  $(document).ready(function() {
+    tinymce.init({
+      selector: 'textarea#description',
+      max_height: 400,
+      max_width: 500
+    });
   });
 </script>
 <script>
@@ -100,10 +103,10 @@
         if ($.isEmptyObject(data.error)) {
           // $(".print-error-msg").css('display', 'none');
           $('#addQuestionModal').modal('hide');
-          $('.modal-backdrop').remove();
+          $('.modal-backdrop').remove()
+          ''
           location.reload();
         } else {
-          // console.log('ree')
           $(".print-error-msg").css('display', 'block');
           $(".print-error-msg").html(data.error);
         }
